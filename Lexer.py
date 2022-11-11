@@ -1,8 +1,8 @@
 import ply.lex as scanner
     
-keywords = {"sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC"}
+keywords = {"sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST"}
     
-tokens = ["colon","id","lessthaneq","greaterthaneq","integer","greaterthan","plus","minus","times","divide","lessthan","opening","closing","left","right"]+list(keywords.values())
+tokens = ["id","lessthaneq","greaterthaneq","integer","greaterthan","plus","minus","times","divide","lessthan","opening","closing","left","right"]+list(keywords.values())
 
 t_ignore =  "  \t"
 
@@ -17,6 +17,10 @@ def t_identiifer(t):
         t.type =  keywords.get(t.value,"id")
         return t
 
+def t_list(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"list")
+    return t 
     
 def t_times(t):
         r'\*'
