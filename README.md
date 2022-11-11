@@ -29,8 +29,8 @@ https://user-images.githubusercontent.com/10147276/201181288-030e0f49-7439-4678-
 (define x + 1 1)
 (define c * 20 1)
 (define y <  1 100)
-(define top  if > 2  1  + 1 2 * 3 1)
-
+(define top  if > 2  1  + 1 2 * 3)
+(fac 10)# factorial 
 
 
 # Trig Operations
