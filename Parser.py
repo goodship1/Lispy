@@ -322,6 +322,57 @@ def p_power_term(p):
     p[0] = Node("exprterm",[p[3],p[4]],'^')
 
 
+def p_list_term(p):
+    '''expr : opening LIST terms closing
+            | opening LIST term closing'''
+    p[0] = Node("list-term",[p[2],p[3]],"[]")
+    
+
+
+def p_terms(p):
+    '''terms  : term
+            | term term 
+            | term term term 
+            | term term term term 
+            | term term term term term
+            | term term term term term term 
+            | term term term term term term term 
+            | term term term term term term term term 
+            | term term term term term term term term term
+            | term term term term term term term term term term 
+            '''
+    p[0] = []
+    try:
+        if p[1]:
+            p[0].append(p[1])
+        if p[2]:
+            p[0].append(p[2])
+        if p[3]:
+            p[0].append(p[3])
+        if p[4]:
+            p[0].append(p[4])
+        if p[5]:
+            p[0].append(p[5])
+        if p[6]:
+            p[0].append(p[6])
+        if p[7]:
+            p[0].append(p[7])
+        if p[8]:
+            p[0].append(p[8])
+        if p[9]:
+            p[0].append(p[9])
+        
+        if p[10]:
+            p[0].append(p[10])
+
+    except Exception  as e:
+        p[0]
+
+
+def p_lists(p):
+    'expr : opening DEFINE id LIST terms  closing'
+    p[0] = Node("list-define",[p[3],p[4],p[5]],"[id]")
+
 
 def p_term(p):
     'term : integer'
@@ -341,7 +392,4 @@ def p_closing(p):
 
 
 parser = yacc.yacc()
-
-
-
 
