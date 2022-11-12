@@ -21,6 +21,7 @@ class Interperter:
             for line in read.readlines():
                     if line!="\n":
                         self.program.append(line.strip())
+
         self.run_parser(self.program)
 
     def run_parser(self,program):
@@ -470,6 +471,16 @@ class Interperter:
                    return int(self.table.table[last_var_one]) - int(self.table.table[last_var_two])
                 if last[0] == "*":
                     return int(self.table.table[last_var_one]) * int(self.tabe.table[last_var_two])
+    
+
+
+    def ast_list_terms(self,expression):
+        new_list = list(expression[1])
+        return new_list
+
+    def ast_define_list_id(self,expression):
+        pass
+
 
     def ast_if_term_term(self,expression):
         if_state = expression[0]
@@ -775,17 +786,21 @@ class Interperter:
                     op = self.ast_id_op_term(instructions.child,instructions.leaf)
                     program.append(op)
 
+            if instructions.op == "list-term":
+                create_list = self.ast_list_terms(instructions.child)
+            
+            if instructions.op == "list-define":
+                variable = instructions.child[0]
+                list_define  = list(instructions.child[2])
+                self.table.populatetable(variable,list_define)
+
+
+
         return program
                         
     def runprogram(self,program):
         for instructions in program:
             print(instructions)
-
-
-interperter = Interperter()
-interperter.read_file()
-program = interperter.visitnodes()
-interperter.runprogram(program)
 
 
 
