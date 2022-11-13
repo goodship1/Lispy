@@ -23,6 +23,26 @@ def p_divideidid(p):
 
 
 
+
+def p_id_compare_term(p):
+    '''expr : opening greaterthan id term closing
+          | opening greaterthan term id closing
+          | opening lessthan term id closing
+          | opening lessthan id term closing
+          | opening greaterthaneq id term closing
+          | opening lessthaneq id term closing
+          | opening greaterthaneq term id closing 
+        '''
+    if p[3] == "term":
+	    look_up = "lookup {id_one}".format(id_one = p[4])
+	    p[0] = Node("id_compare_term",[p[3] , look_up],p[2])
+    else:
+        p[0] = Node("id_compare_term",[look_up, p[3] ],p[2])
+
+
+
+
+
 def p_minus(p):
     'expr : opening minus term term closing'
     p[0] = Node("exprterm",[p[3],p[4]],p[2])
@@ -94,10 +114,6 @@ def p_term_bin_id(p):
             | opening minus id term closing
             | opening times id term closing
             | opening divide id term closing
-            | opening greaterthan id term closing
-            | opening lessthan id term closing
-            | opening greaterthaneq id term closing
-            | opening lessthaneq id term closing
             | opening POW id term closing
             '''
     id_one = "lookup {id_one}".format(id_one = p[3])
@@ -374,6 +390,59 @@ def p_lists(p):
     p[0] = Node("list-define",[p[3],p[4],p[5]],"[id]")
 
 
+def p_list_varialbe_op(p):
+    '''expr : opening FIRST id closing
+            | opening SECOND id closing
+            | opening THIRD id closing
+            | opening FOURTH id closing
+            | opening FIFTH id closing
+            | opening SIXTH id closing
+            | opening SEVENTH id closing
+            | opening EIGHTH id closing
+            | opening NINETH id closing
+            | opening TENTH id closing
+            '''
+    look_up = "lookup {id_one}".format(id_one = p[3])
+    p[0] = Node("list-id-op",[p[2],look_up],p[2])
+
+
+
+
+
+
+
+
+def p_ops_list(p):
+    '''expr : opening FIRST LIST terms closing
+          | opening FIRST LIST term closing
+          | opening SECOND LIST terms closing
+          | opening SECOND LIST term closing
+          | opening THIRD LIST terms closing
+          | opening FOURTH LIST term closing
+          | opening FIFTH LIST terms closing
+          | opening SIXTH LIST term closing
+          | opening SIXTH LIST terms closing
+          | opening EIGHTH LIST term closing
+          | opening EIGHTH LIST terms  closing
+          | opening NINETH LIST term closing
+          | opening NINETH LIST terms closing 
+          | opening TENTH LIST term closing
+          | opening TENTH LIST terms closing 
+
+          '''
+    p[0] = Node("list",[p[2],p[4]],"list")
+
+
+def p_define_string(p):
+    'expr : opening DEFINE id string closing'
+    p[0] = Node("strdefine",[p[3],p[4]],"string")
+
+
+def p_string(p):
+    'term : string'
+    p[0] = p[1]
+
+
 def p_term(p):
     'term : integer'
     p[0] = p[1]
@@ -388,6 +457,45 @@ def p_error(p):
 def p_closing(p):
        'close : closing'
        p[0] = p[1]
+
+def p_args(p):
+    '''args : id 
+          | id id 
+          | id id id 
+          | id id id id 
+          | id  id id  id id
+          | id id id id id id id 
+          | id id id id id id id id'''
+    p[0] = []
+    try:
+        if p[1]:
+            p[0].append(p[1])
+        if p[2]:
+            p[0].append(p[2])
+        if p[3]:
+            p[0].append(p[3])
+        if p[4]:
+            p[0].append(p[4])
+        if p[5]:
+            p[0].append(p[5])
+
+        if p[6]:
+            p[0].append(p[6])
+
+        if p[7]:
+            p[0].append(p[7])
+
+        if p[8]:
+            p[0].append(p[8])
+
+        if p[9]:
+            p[0].append(p[9])
+
+        if p[10]:
+            p[0].append(p[10])
+    except Exception as e:
+       p[0]
+
 
 
 
