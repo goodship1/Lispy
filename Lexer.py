@@ -2,7 +2,7 @@ import ply.lex as scanner
     
 keywords = {"tenth":"TENTH","nineth":"NINETH","eighth":"EIGHTH","seventh":"SEVENTH","sixth":"SIXTH","fifth":"FIFTH","fourth":"FOURTH","sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST","first":"FIRST","second":"SECOND","THIRD":"THIRD"}
     
-tokens = ["id","lessthaneq","greaterthaneq","integer","greaterthan","plus","minus","times","divide","lessthan","opening","closing","left","right"]+list(keywords.values())
+tokens = ["string","id","lessthaneq","greaterthaneq","integer","greaterthan","plus","minus","times","divide","lessthan","opening","closing","left","right"]+list(keywords.values())
 
 t_ignore =  "  \t"
 
@@ -11,6 +11,58 @@ def t_colon(t):
     t.type =  keywords.get(t.value,"colon")
     return t
 
+
+def t_first(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"first")
+    return t 
+
+def t_second(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"second")
+    return t 
+
+def t_third(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"third")
+    return t 
+
+
+def t_fourth(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"fourth")
+    return t 
+
+def t_fifth(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"fifth")
+    return t 
+
+def t_sixth(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"sixth")
+    return t
+
+
+def t_seventh(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"seventh")
+    return t
+
+def t_eighth(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"eighth")
+    return t
+
+def t_nineth(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"nineth")
+    return t   
+
+def t_tenth(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"tenth")
+    return t 
 
 def t_identiifer(t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -54,6 +106,12 @@ def t_error(t):
         t.lexer.skip(1)
 
 
+
+
+def t_string(t):
+		'r("[^"]*")|(\'[^\']*\')'
+		t.type = keywords.get(t.value, "string")
+		return t
 
 
 def t_integer(t):
