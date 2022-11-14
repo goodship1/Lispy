@@ -37,7 +37,10 @@ https://user-images.githubusercontent.com/10147276/201181288-030e0f49-7439-4678-
 (list  1 23 1 .. n)# list of n elements
 (define x list  1 2 3 1)# defining  a list variable
 (first x) # returns the first element of x's list 
-:
+(cons ( 1 3 1 ) ( 2  1 3))# appends two lists together
+(define y list 2 1 3 1 )
+(cons x y) # appends x onto y
+
 
 # Trig Operations
 
