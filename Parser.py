@@ -340,9 +340,25 @@ def p_power_term(p):
 
 def p_list_term(p):
     '''expr : opening LIST terms closing
-            | opening LIST term closing'''
-    p[0] = Node("list-term",[p[2],p[3]],"[]")
+            | opening LIST term closing
+            '''
+    p[0] =  Node("list-terms",[p[3],p[3]],"list")
+
     
+
+def p_cons_two_lists(p):
+    'expr : opening CONS id id closing'
+    look_up_idone =  "lookup {id_one}".format(id_one = p[3])
+    look_up_idtwo = "lookup {id_two}".format(id_two = p[4])
+    p[0] = Node("cons-id-list",[look_up_idone,look_up_idtwo],"cons-list-id")
+
+
+def p_cons_terms(p):
+    'expr : opening CONS opening terms closing opening terms closing closing'
+    p[0] =  Node("cons-terms" ,[p[4],p[7]],"cons")
+
+
+
 
 
 def p_terms(p):
@@ -407,30 +423,20 @@ def p_list_varialbe_op(p):
 
 
 
-
-
-
-
-
 def p_ops_list(p):
     '''expr : opening FIRST LIST terms closing
           | opening FIRST LIST term closing
           | opening SECOND LIST terms closing
-          | opening SECOND LIST term closing
           | opening THIRD LIST terms closing
-          | opening FOURTH LIST term closing
           | opening FIFTH LIST terms closing
-          | opening SIXTH LIST term closing
           | opening SIXTH LIST terms closing
-          | opening EIGHTH LIST term closing
+          | opening SEVENTH LIST terms closing
           | opening EIGHTH LIST terms  closing
-          | opening NINETH LIST term closing
           | opening NINETH LIST terms closing 
-          | opening TENTH LIST term closing
           | opening TENTH LIST terms closing 
 
           '''
-    p[0] = Node("list",[p[2],p[4]],"list")
+    p[0] = Node("list",[p[2],p[4]],p[2])
 
 
 def p_define_string(p):
