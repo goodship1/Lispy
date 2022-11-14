@@ -478,8 +478,124 @@ class Interperter:
         new_list = list(expression[1])
         return new_list
 
-    def ast_define_list_id(self,expression):
-        pass
+
+    
+
+    def ast_list_op_id(self,expr,op):
+        variable =  expr[1].split(" ")[1]
+        data =  self.table.table[variable]
+        check =  type(data) == type([])
+        if op == "first" and len(data) >=1:
+            try:
+                return data[0]
+            except Exception as e:
+                raise NameError("incompatiable type")
+        if op  == "second"  and len(data)>=2:
+            try:
+                return data[1]
+            except Exception as e:
+                raise NameError("incompatiable type")
+        if op  == "third" and len(data)>=3:
+            try:
+                return data[2]
+            except Exception as e:
+                raise NameError("incompatiable type")
+        if op == "fourth" and len(data)>=4:
+            try:
+                return data[3]
+            except Exception as e:
+                raise NameError("incompatiable type")
+        if op == "fifth" and len(data)>=5:
+            try:
+                return data[4]
+            except Exception as e:
+                raise NameError("incompataible type")
+        if op == "sixth" and len(data)>=6:
+            try:
+                return data[5]
+            except Exception as e:
+                raise NameError("incompatiable type")
+        if op == "seventh" and len(data)>=7:
+            try:
+                return data[6]
+            except Exception as e:
+                raise NameError("incompatabile type")
+        if op == "eighth" and len(data)>=8:
+            try:
+                return data[8]
+            except Exception as e:
+                raise NameError("incompatiable type")
+        if op == "nineth" and len(data)>=9:
+            try:
+                return data[9]
+            except Exception as e:
+                raise NameError("incompataible type")
+        if op == "tenth" and len(data)>=10:
+            try:
+                return data[10]
+            except Exception as e:
+                raise NameError("incompatiable type")
+        else:
+            raise NameError("Invalid index")
+
+
+    def ast_list_op_terms(self,expression,op):
+        if op == "first":
+            data =  expression[1]
+            return data[1]
+        if op == "second":
+            data =  expression[1]
+            return data[2]
+        if op == "third":
+            data = expression[1]
+            return data[3]
+        if op == "fourth":
+            data = expression[1]
+            return data[4]
+        if op == "fifth":
+            data = expression[1]
+            return data[5]
+        if op == "sixth":
+            data = expression[1]
+            return data[6]
+        if op == "seventh":
+            data = expression[1]
+            return data[7]
+        if op == "eighth":
+            data = expression[1]
+            return data[8]
+        if op == "nineth":
+            data = expression[1]
+            return data[9]
+        if op == "tenth":
+            data =  expression[1]
+            return data[10]
+
+    def ast_cons_term(self,expression):
+        list_one = expression[0]
+        list_two =  expression[1]
+        new_list = []
+        for item in list_one:
+            new_list.append(int(item))
+        for item in list_two:
+            new_list.append(int(item))
+        return new_list
+
+
+    def ast_cons_id_id(self,expression):
+        id_one = self.table.table[expression[0].split(" ")[1]]
+        id_two = self.table.table[expression[1].split(" ")[1]]
+        if type(id_one) == type([]) and type(id_two) == type([]):
+            new_list = []
+            for items in id_one:
+                new_list.append(int(items))
+            for items in id_two:
+                new_list.append(int(items))
+            return new_list
+        else:
+            raise NameError("Incompatiable types")
+
+        
 
 
     def ast_if_term_term(self,expression):
@@ -762,6 +878,7 @@ class Interperter:
                          variable =  instructions.leaf[1]
                          assignment_if_id =  self.ast_assign_if_id(instructions.child)
                          self.table.populatetable(variable,assignment_if_id)
+            
             if instructions.op == "exprid" and instructions.leaf[0] == "\\":
                 variables =  self.extractvariables(instructions.child)
                 check = self.symboltablecheck(variables)
@@ -794,6 +911,30 @@ class Interperter:
                 list_define  = list(instructions.child[2])
                 self.table.populatetable(variable,list_define)
 
+            if instructions.op == "list-id-op":
+                variables = [instructions.child[1],instructions.child[1]]
+                lookup = self.extractvariables(variables)
+                check =  self.symboltablecheck(lookup)
+                list_op =  self.ast_list_op_id(instructions.child,instructions.leaf)
+                program.append(list_op)
+
+            if instructions.op == "strdefine":
+                variable = instructions.child[0]
+                self.table.populatetable(variable,str(instructions.child[1]))
+
+            if instructions.op == "list":
+                list_op = self.ast_list_op_terms(instructions.child,instructions.leaf)
+                program.append(list_op)
+
+            if instructions.op == "cons-terms":
+                cons = self.ast_cons_term(instructions.child)
+                print(cons)
+            if instructions.op == "cons-id-list":
+                variables =  [instructions.child[0],instructions.child[1]]
+                lookup =  self.extractvariables(variables)
+                check =  self.symboltablecheck(lookup)
+                cons_id_term =  self.ast_cons_id_id(instructions.child)
+                print(cons_id_term)
 
 
         return program
@@ -801,6 +942,9 @@ class Interperter:
     def runprogram(self,program):
         for instructions in program:
             print(instructions)
+
+
+
 
 
 
