@@ -1,6 +1,6 @@
 import ply.lex as scanner
     
-keywords = {"tenth":"TENTH","nineth":"NINETH","eighth":"EIGHTH","seventh":"SEVENTH","sixth":"SIXTH","fifth":"FIFTH","fourth":"FOURTH","sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST","first":"FIRST","second":"SECOND","THIRD":"THIRD"}
+keywords = {"cons":"CONS","tenth":"TENTH","nineth":"NINETH","eighth":"EIGHTH","seventh":"SEVENTH","sixth":"SIXTH","fifth":"FIFTH","fourth":"FOURTH","sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST","first":"FIRST","second":"SECOND","THIRD":"THIRD"}
     
 tokens = ["string","id","lessthaneq","greaterthaneq","integer","greaterthan","plus","minus","times","divide","lessthan","opening","closing","left","right"]+list(keywords.values())
 
@@ -9,8 +9,13 @@ t_ignore =  "  \t"
 def t_colon(t):
     r'\;'
     t.type =  keywords.get(t.value,"colon")
-    return t
+    return t 
 
+
+def t_cons(t):
+    'r[a-zA_Z_][a-zA-Z_0-9]*'
+    t.type =  keywords.get(t.value,"cons")
+    return t 
 
 def t_first(t):
     'r[a-zA-Z_][a-zA-Z_0-9]*'
