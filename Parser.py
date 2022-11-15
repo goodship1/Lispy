@@ -229,8 +229,8 @@ def p_term_op_id(p):
             | opening times term id closing
             | opening divide term id closing
             '''
-    id_one = "lookup {id_one}".lookup(id_one = p[4])
-    p[0] = Node("exprid",[p[3],p[4]],p[2])
+    id_one = "lookup {id_one}".format(id_one = p[4])
+    p[0] = Node("exprtermid",[p[3],id_one],p[2])
 
 
 def p_vargreaterthanequalvar(p):
@@ -343,6 +343,21 @@ def p_list_term(p):
             | opening LIST term closing
             '''
     p[0] =  Node("list-terms",[p[3],p[3]],"list")
+
+
+def p_list_op_define(p):
+    '''expr : opening DEFINE id FIRST LIST terms closing
+          | opening DEFINE id SECOND LIST terms closing
+          | opening DEFINE id THIRD LIST terms closing
+          | opening DEFINE id FOURTH LIST terms closing
+          | opening DEFINE id FIFTH LIST terms closing
+          | opening DEFINE id SIXTH LIST terms closing
+          | opening DEFINE id SEVENTH LIST terms closing
+          | opening DEFINE id EIGHTH LIST terms closing
+          | opening DEFINE id NINETH LIST terms closing
+          | opening DEFINE id TENTH LIST terms closing
+          '''
+    p[0] = Node("list-define-op",[p[3],p[4],p[6]],"list")
 
     
 
@@ -464,6 +479,12 @@ def p_closing(p):
        'close : closing'
        p[0] = p[1]
 
+
+def p_funcs(p):
+    'expr : opening DEFINE id  opening args closing  expr closing'
+    p[0] =  Node("function",[p[3],p[5],p[7]],"func")
+
+
 def p_args(p):
     '''args : id 
           | id id 
@@ -506,4 +527,5 @@ def p_args(p):
 
 
 parser = yacc.yacc()
+
 
