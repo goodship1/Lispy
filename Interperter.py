@@ -596,8 +596,29 @@ class Interperter:
             raise NameError("Incompatiable types")
 
         
+    def ast_term_id(self,expression,op):
+        id_one = expression[1].split(" ")[1]
+        variable = self.table.table[id_one]
+        print(op)
+        if type(variable) != bool and type(variable) != type([]):
+            if op == "+":
+                return int(self.table.table[id_one]) + int(expression[0])
+            if op == "-":
+                return int(self.table.table[id_one]) - int(expression[0])
+            if op == "*":
+                return int(self.table.table[id_one])  * int(expression[0])
+            if op == "\\":
+                if int(self.table.table[id_one]) == 0:
+                    raise NameError("Zero divisor")
+                else:
+                    return int(self.table.table[id_one]) / int(expression[0])
+        else:
+            raise NameError("Incompatiable type")
 
 
+
+
+            
     def ast_if_term_term(self,expression):
         if_state = expression[0]
         if_term_one = expression[1]
@@ -935,6 +956,14 @@ class Interperter:
                 check =  self.symboltablecheck(lookup)
                 cons_id_term =  self.ast_cons_id_id(instructions.child)
                 print(cons_id_term)
+
+            if instructions.op == "exprtermid":
+                variables = [instructions.child[1], instructions.child[1]]
+                lookup = self.extractvariables(variables)
+                check = self.symboltablecheck(lookup)
+                term_id = self.ast_term_id(instructions.child,instructions.leaf)
+                program.append(term_id)
+
 
 
         return program
