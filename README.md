@@ -33,6 +33,7 @@ https://user-images.githubusercontent.com/10147276/201181288-030e0f49-7439-4678-
 (fac 10)# factorial 
 
 # lists 
+
 (list 1) # [1]
 (list  1 23 1 .. n)# list of n elements
 (define x list  1 2 3 1)# defining  a list variable
@@ -40,7 +41,7 @@ https://user-images.githubusercontent.com/10147276/201181288-030e0f49-7439-4678-
 (cons ( 1 3 1 ) ( 2  1 3))# appends two lists together
 (define y list 2 1 3 1 )
 (cons x y) # appends x onto y
-
+(define c first list 1 2 3 1) c = 1 
 
 # Trig Operations
 
@@ -63,7 +64,8 @@ Create an .ls file similar to demo.ls file  and run the following command python
 https://user-images.githubusercontent.com/10147276/201185253-a8f4b786-5c6c-4792-9459-29a107461a56.mp4
 
 # TODO 
-- Add lists
+- Structures 
 - Lamdba functions
-
+- map opeartions on lists
+- Repl update
 
