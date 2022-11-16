@@ -374,6 +374,9 @@ def p_cons_terms(p):
 
 
 
+def p_cons_list_define(p):
+    'expr : opening DEFINE id CONS opening terms closing opening terms closing  closing'
+    p[0] = Node("cons-define",[p[3],p[6],p[9]],"cons-define")
 
 
 def p_terms(p):
@@ -421,7 +424,7 @@ def p_lists(p):
     p[0] = Node("list-define",[p[3],p[4],p[5]],"[id]")
 
 
-def p_list_varialbe_op(p):
+def p_list_variable_op(p):
     '''expr : opening FIRST id closing
             | opening SECOND id closing
             | opening THIRD id closing
@@ -436,6 +439,47 @@ def p_list_varialbe_op(p):
     look_up = "lookup {id_one}".format(id_one = p[3])
     p[0] = Node("list-id-op",[p[2],look_up],p[2])
 
+
+def p_ops_string_list(p):
+    '''expr : opening FIRST LIST strings closing
+            | opening SECOND LIST strings closing
+            | opening THIRD LIST strings closing
+            | opening FOURTH LIST strings closing
+            | opening FIFTH LIST strings closing
+            | opening SIXTH LIST strings closing
+            | opening SEVENTH LIST strings closing
+            | opening EIGHTH LIST strings closing
+            | opening NINETH LIST strings closing
+            | opening TENTH LIST strings closing
+        '''
+    p[0] =  Node("string-list-op",[p[2],p[4]],p[2])
+
+
+def p_define_string_list_op(p):
+    ''' expr : opening DEFINE id FIRST LIST strings  closing
+             | opening DEFINE id SECOND LIST strings closing
+             | opening DEFINE id THIRD LIST strings closing
+             | opening DEFINE id FOURTH LIST strings closing
+             | opening DEFINE id SIXTH LIST strings closing
+             | opening DEFINE id SEVENTH LIST strings closing
+             | opening DEFINE id EIGHTH LIST strings closing
+             | opening DEFINE id NINETH LIST strings closing
+             | opening DEFINE id TENTH LIST strings closing
+             '''
+    p[0] =  Node("define-string-list",[p[3],p[4],p[6]],"list")
+
+
+
+
+
+def p_string_list(p):
+    'expr : opening LIST strings closing'
+    p[0] = Node("list-string-term",[p[3],p[3]],"list")
+
+
+def p_define_string_list(p):
+    'expr : opening DEFINE id LIST strings closing'
+    p[0] =  Node("string-list-define",[p[3],p[5]],"list")
 
 
 def p_ops_list(p):
@@ -453,6 +497,44 @@ def p_ops_list(p):
           '''
     p[0] = Node("list",[p[2],p[4]],p[2])
 
+def p_string_terms(p):
+    '''strings : string
+            | string string
+            | string string string
+            | string string string string 
+            | string string string string string 
+            | string string string string string string 
+            | string string string string string string string 
+            | string string string string string string string string
+            | string string string string string string string string string
+            | string string string string string string string string string string
+    '''
+    p[0] = []
+    try:
+       if p[1]:
+          p[0].append(p[1])
+       if p[2]:
+          p[0].append(p[2])
+       if p[3]:
+          p[0].append(p[3])
+       if p[4]:
+          p[0].append(p[4])
+       if p[5]:
+          p[0].append(p[5])
+       if p[6]:
+          p[0].append(p[6])
+       if p[7]:
+          p[0].append(p[7])
+       if p[8]:
+          p[0].append(p[8])
+       if p[9]:
+          p[0].append(p[9])
+       if p[10]:
+          p[0].append(p[10])
+    except Exception as e:
+        p[0]
+    
+
 
 def p_define_string(p):
     'expr : opening DEFINE id string closing'
@@ -460,7 +542,7 @@ def p_define_string(p):
 
 
 def p_string(p):
-    'term : string'
+    'strs : string'
     p[0] = p[1]
 
 
