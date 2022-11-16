@@ -27,12 +27,18 @@ https://user-images.githubusercontent.com/10147276/201181288-030e0f49-7439-4678-
 
 # Define Variables 
 (define x + 1 1)
+
 (define c * 20 1)
 (define y <  1 100)
+(define name  'lipsy')
+
 (define top  if > 2  1  + 1 2 * 3)
 (fac 10)# factorial 
 
 # lists 
+
+(define new_list cons  ( 1 2 3 1) ( 2 3 1 3 ))
+(define str_list list 'a' 'b')
 
 (list 1) # [1]
 (list  1 23 1 .. n)# list of n elements
