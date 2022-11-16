@@ -540,36 +540,39 @@ class Interperter:
 
 
     def ast_list_op_terms(self,expression,op):
-        if op == "first":
+        try:
+          if op == "first":
             data =  expression[1]
             return data[1]
-        if op == "second":
-            data =  expression[1]
-            return data[2]
-        if op == "third":
-            data = expression[1]
-            return data[3]
-        if op == "fourth":
-            data = expression[1]
-            return data[4]
-        if op == "fifth":
-            data = expression[1]
-            return data[5]
-        if op == "sixth":
+          if op == "second":
+              data =  expression[1]
+              return data[2]
+          if op == "third":
+	          data = expression[1]
+	          return data[3]
+          if op == "fourth":
+              data = expression[1]
+              return data[4]
+          if op == "fifth":
+              data = expression[1]
+              return data[5]
+          if op == "sixth":
             data = expression[1]
             return data[6]
-        if op == "seventh":
+          if op == "seventh":
             data = expression[1]
             return data[7]
-        if op == "eighth":
-            data = expression[1]
-            return data[8]
-        if op == "nineth":
+          if op == "eighth":
+             data = expression[1]
+             return data[8]
+          if op == "nineth":
             data = expression[1]
             return data[9]
-        if op == "tenth":
-            data =  expression[1]
-            return data[10]
+          if op == "tenth":	
+           data =  expression[1]
+           return data[10]
+        except Exception as e:
+			      NameError("Element out of bounds")
 
     def ast_cons_term(self,expression):
         list_one = expression[0]
@@ -600,7 +603,7 @@ class Interperter:
         id_one = expression[1].split(" ")[1]
         variable = self.table.table[id_one]
         print(op)
-        if type(variable) != bool and type(variable) != type([]):
+        if type(variable) != bool and type(variable) != type([]) and type(variable) != str:        
             if op == "+":
                 return int(self.table.table[id_one]) + int(expression[0])
             if op == "-":
@@ -617,7 +620,9 @@ class Interperter:
 
 
 
-
+    def ast_string_list(self,expression):
+        new_list = list(expression[1])
+        return new_list
             
     def ast_if_term_term(self,expression):
         if_state = expression[0]
@@ -742,6 +747,58 @@ class Interperter:
                         return int(else_term_one) / int(else_term_two)
                     except Exception as e:
                         NameError("Zero divisor")
+
+
+    def ast_list_op_strings(self,expression,op):
+        list_define = expression[1]
+        if op == "first":
+            return list_define[0]
+        if op == "second":
+            try:
+                return list_define[2]
+            except Exception as e:
+                raise NameError("Index not in bounds")
+        if op == "third":
+            try:
+                return list_define[3]
+            except Exception as e:
+                raise NameError("Index not in bounds")
+        if op == "fourth":
+            try:
+                return list_define[4]
+            except Exception as e:
+                raise NameError("Index not in bounds")
+        if op == "fifth":
+            try:
+                return list_define[5]
+            except Exception as e:
+                raise NameError("Index not in bounds")
+        if op == "sixth":
+            try:
+                return list_define[6]
+            except Exception as e:
+                raise NameError("Index not in bounds")
+        if op == "seventh":
+            try:
+                return list_define[7]
+            except Exception as e:
+                raise NameError("Index not in bounds")
+        if op == "eighth":
+            try:
+                return list_define[8]
+            except Exception as e:
+                raise NameError("Index not in bounds")
+        if op == "nineth":
+            try:
+                return list_define[9]
+            except Exception as e:
+                raise NameError("Index not in bounds")
+        if op == "tenth":
+            try:
+                return list_define[10]
+            except Exception as e:
+                raise NameError("Index not in bounds")
+
 
     def visitnodes(self):
         
@@ -924,9 +981,24 @@ class Interperter:
                     op = self.ast_id_op_term(instructions.child,instructions.leaf)
                     program.append(op)
 
+            if instructions.op == "list-string-term":
+                create_string_list =  self.ast_string_list(instructions.child)
+
             if instructions.op == "list-term":
                 create_list = self.ast_list_terms(instructions.child)
             
+            if instructions.op == "string-list-define":
+                variable =  instructions.child[0]
+                list_define =  list(instructions.child[1])
+                self.table.populatetable(variable,list_define)
+            
+            if instructions.op == "string-list-op":
+                list_op = self.ast_list_op_strings(instructions.child,instructions.leaf)
+                program.append(list_op)
+
+
+
+
             if instructions.op == "list-define":
                 variable = instructions.child[0]
                 list_define  = list(instructions.child[2])
