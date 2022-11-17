@@ -567,6 +567,11 @@ def p_funcs(p):
     p[0] =  Node("function",[p[3],p[5],p[7]],"func")
 
 
+def p_func_call(p):
+    'expr : opening id opening args closing closing'
+    p[0] = Node("funcution-cal",[p[2],p[4]],"function")
+
+
 def p_args(p):
     '''args : id 
           | id id 
@@ -609,5 +614,4 @@ def p_args(p):
 
 
 parser = yacc.yacc()
-
 
