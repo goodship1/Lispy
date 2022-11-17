@@ -4,6 +4,7 @@ from Ast import Node
 from Checker import Typechecker
 import sys
 import math
+from Functiontable import Functiontable
 
 class Interperter:
     
@@ -747,7 +748,21 @@ class Interperter:
                         return int(else_term_one) / int(else_term_two)
                     except Exception as e:
                         NameError("Zero divisor")
+    
 
+
+
+
+    def ast_define_cons_terms(self,expressions):
+       
+        lists_one =  expression[1]
+        list_two =  expression[2]
+        new_list = []
+        for items in list_one:
+            new_list.append(int(items))
+        for items in list_two:
+            new_list.append(int(items))
+        return new_list
 
     def ast_list_op_strings(self,expression,op):
         list_define = expression[1]
@@ -996,6 +1011,11 @@ class Interperter:
                 list_op = self.ast_list_op_strings(instructions.child,instructions.leaf)
                 program.append(list_op)
 
+            
+            if instructions.op == "cons-define":
+                variable = instructions.child[0]
+                cons_define = self.ast_cons_define_list(instructions.child)
+                self.table.populatetable(variable,cons_define)
 
 
 
