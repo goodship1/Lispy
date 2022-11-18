@@ -14,6 +14,8 @@ class Interperter:
         self.typechecker = Typechecker()
         self.table =  Symboltable()
         self.parse = []
+        self.function =  Functiontable()
+
 
     def  read_file(self):
         args  = sys.argv
@@ -755,8 +757,8 @@ class Interperter:
 
     def ast_define_cons_terms(self,expressions):
        
-        lists_one =  expression[1]
-        list_two =  expression[2]
+        list_one =  expressions[1]
+        list_two =  expressions[2]
         new_list = []
         for items in list_one:
             new_list.append(int(items))
@@ -1014,8 +1016,13 @@ class Interperter:
             
             if instructions.op == "cons-define":
                 variable = instructions.child[0]
-                cons_define = self.ast_cons_define_list(instructions.child)
+                cons_define = self.ast_define_cons_terms(instructions.child)
                 self.table.populatetable(variable,cons_define)
+            
+            if instructions.op == "function-define":
+                function_name = instructions.child[0]
+                expr  = instructions.child[2].child
+                self.function.populatetable(function_name,expr)
 
 
 
