@@ -47,7 +47,11 @@ https://user-images.githubusercontent.com/10147276/201181288-030e0f49-7439-4678-
 (cons ( 1 3 1 ) ( 2  1 3))# appends two lists together
 (define y list 2 1 3 1 )
 (cons x y) # appends x onto y
-(define c first list 1 2 3 1) c = 1 
+(define c first list 1 2 3 1) #c= 1
+
+# Functions 
+(defunc add_two (x) (+ 2 x )) 
+(add_two(3)
 
 # Trig Operations
 
