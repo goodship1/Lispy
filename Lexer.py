@@ -1,6 +1,6 @@
 import ply.lex as scanner
     
-keywords = {"cons":"CONS","tenth":"TENTH","nineth":"NINETH","eighth":"EIGHTH","seventh":"SEVENTH","sixth":"SIXTH","fifth":"FIFTH","fourth":"FOURTH","sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST","first":"FIRST","second":"SECOND","THIRD":"THIRD"}
+keywords = {"map":"MAP","defunc":"DEFUNC","cons":"CONS","tenth":"TENTH","nineth":"NINETH","eighth":"EIGHTH","seventh":"SEVENTH","sixth":"SIXTH","fifth":"FIFTH","fourth":"FOURTH","sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST","first":"FIRST","second":"SECOND","THIRD":"THIRD","destruct":"DESTRUCT","search":"SEARCH","mod":"MOD"}
     
 tokens = ["string","id","lessthaneq","greaterthaneq","integer","greaterthan","plus","minus","times","divide","lessthan","opening","closing","left","right"]+list(keywords.values())
 
@@ -12,8 +12,35 @@ def t_colon(t):
     return t 
 
 
+def t_mod(t):
+    r'[a-zA-Z][a-zA-z_0-9]*'
+    t.type =  keywords.get(t.value,"mod")
+    return t 
+
+def t_map(t):
+    r'[a-zA-Z][a-zA-z_0-9]*'
+    t.type = keywords.get(t.value,"map")
+    return t
+
+def t_search(t):
+    'r[a-zA-Z][a-zA-z_0-9]*'
+    t.type =  keywords.get(t.value,"search")
+    return t 
+
+def t_defstruct(t):
+    'r[a-zA-Z][a-zA-z_0-9]*'
+    t.type = keywords.get(t.value,"destruct")
+    return t
+
+
+
+def t_defunc(t):
+    'r[a-zA-Z][a-zA-z_0-9]*'
+    t.tupe = keywords.get(t.value,"defunc")
+    return t
+
 def t_cons(t):
-    'r[a-zA_Z_][a-zA-Z_0-9]*'
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
     t.type =  keywords.get(t.value,"cons")
     return t 
 
