@@ -765,6 +765,18 @@ class Interperter:
         for items in list_two:
             new_list.append(int(items))
         return new_list
+    
+
+    def functiontablecheck(self,variable):
+        print("HH")
+        if self.function.table[variable]:
+            return True
+        else:
+            raise NameError("function not define")
+        
+
+
+
 
     def ast_list_op_strings(self,expression,op):
         list_define = expression[1]
@@ -815,7 +827,66 @@ class Interperter:
                 return list_define[10]
             except Exception as e:
                 raise NameError("Index not in bounds")
+    
+    def ast_func_exprid(self,expression,op):
+        if op == "+":
+            try:
+                add = []
+                for items in expression:
+                    add.append(int(items))
+                result = 0
+                for items in add:
+                    result+=items
+                return result
+            except Exception as e:
+                raise NameError("Incompatiable types")
+        if op == "-":
+            try:
+                minus = []
+                for items in expression:
+                    minus.append(int(items))
+                result = minus[0]
+                for items in minus:
+                    result-= items
+                return result
+            except Exception as e:
+                raise NameError("Incompatiable types")
+        if op == "*":
+            try:
+                times = []
+                for items in expression:
+                    times.append(int(items))
+                result = times[0]
+                for items in times:
+                    result*=items
+                return result
+            except Exception as e:
+                raise NameError("Incompatiable types")
+        if op == ">":
+            try:
+                greaterthan = []
+                for items in expression:
+                    greaterthan.append(int(items))
+                result = greaterthan[0]
+                compare = []
+                for items in greaterthan:
+                    if result>items:
+                        compare.append(True)
+                    else:
+                        compare.append(False)
+                if False in compare:
+                    return False
+                else:
+                    return True
+            except Exception as e:
+                raise NameError("Incompatiable types")
 
+
+
+
+                
+
+                    
 
     def visitnodes(self):
         
@@ -1021,7 +1092,7 @@ class Interperter:
             
             if instructions.op == "function-define":
                 function_name = instructions.child[0]
-                expr  = instructions.child[2].child
+                expr  = instructions.child[2]
                 self.function.populatetable(function_name,expr)
 
 
@@ -1042,6 +1113,19 @@ class Interperter:
                 variable = instructions.child[0]
                 self.table.populatetable(variable,str(instructions.child[1]))
 
+            if instructions.op =="function-call":
+                if self.function.table[instructions.child[0]]:
+                    func  = self.function.table[instructions.child[0]]
+                    if func.op == "exprid":
+                        func_eval =  self.ast_func_exprid(instructions.child[1],func.leaf)
+                        program.append(func_eval)
+
+
+
+
+
+            
+            
             if instructions.op == "list":
                 list_op = self.ast_list_op_terms(instructions.child,instructions.leaf)
                 program.append(list_op)
