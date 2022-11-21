@@ -880,10 +880,46 @@ class Interperter:
                     return True
             except Exception as e:
                 raise NameError("Incompatiable types")
+        if op == "<=":
+            try:
+                lessthaneq = []
+                for items in expression:
+                    lessthaneq.append(int(items))
+                result = lessthaneq[0]
+                compare = []
+                for items in lessthaneq:
+                    if result <= items:
+                        compare.append(True)
+                    else:
+                        compare.append(False)
+                if False in compare:
+                    return False
+                else:
+                    return True
+            except Exception as e:
+                raise NameError("Incompatiable types")
+        if op == ">=":
+            try:
+                greaterthaneq = []
+                for items in expression:
+                    greaterthaneq.append(int(terms))
+                result = greaterthaneq[0]
+                compare = []
+                for items in greaterthaneq:
+                    if result <= items:
+                        compare.append(True)
+                    else:
+                        compare.append(False)
+                if False in compare:
+                    return False
+                else:
+                    return True
+            except Exception as e:
+                raise NameError("Incompatiable types")
 
+                        
 
-
-
+                    
                 
 
                     
