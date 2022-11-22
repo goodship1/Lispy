@@ -768,7 +768,6 @@ class Interperter:
     
 
     def functiontablecheck(self,variable):
-        print("HH")
         if self.function.table[variable]:
             return True
         else:
