@@ -619,14 +619,15 @@ def p_search(p):
 
 
 def p_defstruct(p):
-    'expr : opening DEFSTRUCT id opening args closing closing'
+    'expr : opening DESTRUCT id opening args closing closing'
     p[0] =  Node("create-struct",[p[3],p[5]],"struct")
 
 
 def p_map(p):
     '''expr : opening MAP plus  LIST opening terms closing LIST opening terms closing closing
             | opening MAP minus LIST opening terms closing LIST opening terms closing closing
-            | opening MAP times LIST opening terms closing LIST opening terms closing closing'''
+            | opening MAP times LIST opening terms closing LIST opening terms closing closing
+            | opening MAP divide LIST opening terms closing LIST opening terms closing closing'''
     p[0] =  Node("map-list",[p[3],p[6],p[10]],"map-list")
 
 def p_map_list_define(p):
@@ -635,6 +636,15 @@ def p_map_list_define(p):
             | opening DEFINE id MAP times LIST opening terms closing LIST opening terms closing closing'''
     p[0] = Node("map-define" ,[p[3],p[5],p[8],p[12]],p[5])
 
+
+def p_mod_terms(p):
+    'expr : opening MOD term term closing'
+    p[0] = Node("mod-term",[p[3],p[4]],"%")
+
+
+def p_mod_define(p):
+    'expr : opening DEFINE id MOD term term closing'
+    p[0] = Node("mod-id",[p[3],p[5],p[6]],"mod")
 
 
 parser = yacc.yacc()
