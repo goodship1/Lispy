@@ -11,32 +11,14 @@ def t_colon(t):
     t.type =  keywords.get(t.value,"colon")
     return t 
 
+def t_div_m(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"mod")
+    return t
 
-def t_mod(t):
-    r'[a-zA-Z][a-zA-z_0-9]*'
-    t.type =  keywords.get(t.value,"mod")
-    return t 
-
-def t_map(t):
-    r'[a-zA-Z][a-zA-z_0-9]*'
+def t_maps(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = keywords.get(t.value,"map")
-    return t
-
-def t_search(t):
-    'r[a-zA-Z][a-zA-z_0-9]*'
-    t.type =  keywords.get(t.value,"search")
-    return t 
-
-def t_defstruct(t):
-    'r[a-zA-Z][a-zA-z_0-9]*'
-    t.type = keywords.get(t.value,"destruct")
-    return t
-
-
-
-def t_defunc(t):
-    'r[a-zA-Z][a-zA-z_0-9]*'
-    t.tupe = keywords.get(t.value,"defunc")
     return t
 
 def t_cons(t):
