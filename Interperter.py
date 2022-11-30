@@ -827,6 +827,129 @@ class Interperter:
             except Exception as e:
                 raise NameError("Index not in bounds")
     
+    def ast_term_mod_term(self,expression):
+        variable_one  = int(expression[0])
+        variable_two =  int(expression[1])
+        if variable_two == 0:
+            raise NameError("Zero divisor")
+        return variable_one % variable_two
+
+
+
+    def ast_map_list(self,expression):
+        list_one  = expression[1]
+        list_two  = expression[2]
+        new_list =  None
+        return_list = []
+        length_list_one =  len(list_one)
+        length_list_two =  len(list_two)
+        if length_list_one == length_list_two:
+            new_list = zip(list_one,list_two)
+            if expression[0] == "+":
+                for items in range(len(new_list)):
+                    result =  int(new_list[items][0]) + int(new_list[items][1])
+                    return_list.append(result)
+            if expression[0] == "-":
+                for items in range(len(new_list)):
+                    result =  int(new_list[items][0]) - int(new_list[items][1])
+                    return_list.append(result)
+            if expression[0] == "*":
+                for items in range(len(new_list)):
+                    result  = int(new_list[items][0]) * int(new_list[items][1])
+                    return_list.append(result)
+            if expression[0] == "\\":
+                for items in range(len(new_list)):
+                    try:
+                        result  = int(new_list[items][0]) / int(new_list[items][1])
+                        return_list.append(result)
+                    except Exception as e:
+                        raise NameError("Zero divisor")
+            return return_list
+
+        if length_list_one > length_list_two:
+            extend_by  = length_list_one - length_list_two
+            if expression[0] == "+":
+                 add_to  = [0] * extend_by
+                 list_two  = list_two + add_to
+                 new_list = list(zip(list_one,list_two))
+                 for items in range(len(new_list)):
+                     result = int(new_list[items][0]) +  int(new_list[items][1])
+                     return_list.append(result)
+                 return return_list
+            
+            if expression[0] == "-":
+                 add_to = [0] * extend_by
+                 list_two  = list_two+add_to
+                 new_list = list(zip(list_one,list_two))
+                 for items in range(len(new_list)):
+                     result = int(new_list[items][0]) - int(new_list[items][1])
+                     return_list.append(result)
+                 return return_list
+
+            if expression[0] == "*":
+                add_to = [1] * extend_by
+                list_two =  list_two + add_to
+                new_list =  list(zip(list_one,list_two))
+                for items in range(len(new_list)):
+                    result = int(new_list[items][0]) * int(new_list[items][1])
+                    return_list.append(result)
+                return return_list
+            
+            if expression[0] == "\\":
+                add_to =  [1] * extend_by
+                list_two = list_two + add_to
+                new_list  = list(zip(list_one,list_two))
+                for items in range(len(new_list)):
+                    try:
+                        result = int(new_list[items][0]) / int(new_list[items][1])
+                        return_list.append(result)
+                    except Exception as e:
+                        raise NameError("Zero divisor")
+                return return_list
+           
+                
+            if length_list_one < length_list_two:
+                if expression[0] == "+":
+                    add_to = [0] * extend_by
+                    list_one = list_one + add_to
+                    new_list = list(zip(list_one,list_two))
+                    for items in range(len(new_list)):
+                        result =  int(new_list[items][0]) + int(new_list[items][1])
+                        return_list.append(result)
+                    return return_list
+
+                if expression[0] == "-":
+                    add_to = [0] * extend_by
+                    list_one  = list_one + add_to
+                    new_list =  list(zip(list_one,list_two))
+                    for items in range(len(new_list)):
+                        result = int(new_list[items][0]) - int(new_list[items][1])
+                        return_list.append(result)
+                    return return_list
+                
+                if expression[0] == "*":
+                    add_to = [1] * extend_by
+                    list_one = list_one + add_to
+                    new_list =  list(zip(list_one,list_two))
+                    for items in range(len(new_list)):
+                        result = int(new_list[items][0]) * int(new_list[items][1])
+                        return_list.append(result)
+                    return return_list
+               
+                if expression[0] == "\\":
+                   add_to = [1] * extend_by
+                   list_one = list_one + add_to
+                   new_list = list(zip(list_one,list_two))
+                   for items in range(len(new_list)):
+                       try:
+                           result =  int(new_list[items][0]) / int(new_list[items][1])
+                           return_list.append(result)
+                       except Exception as e:
+                          raise NameError("Zero divisor error")
+                   return return_list
+               
+
+
     def ast_func_exprid(self,expression,op):
         if op == "+":
             try:
@@ -916,12 +1039,7 @@ class Interperter:
             except Exception as e:
                 raise NameError("Incompatiable types")
 
-                        
 
-                    
-                
-
-                    
 
     def visitnodes(self):
         
@@ -1131,7 +1249,6 @@ class Interperter:
                 self.function.populatetable(function_name,expr)
 
 
-
             if instructions.op == "list-define":
                 variable = instructions.child[0]
                 list_define  = list(instructions.child[2])
@@ -1150,16 +1267,26 @@ class Interperter:
 
             if instructions.op =="function-call":
                 if self.function.table[instructions.child[0]]:
-                    func  = self.function.table[instructions.child[0]]
-                    if func.op == "exprid":
-                        func_eval =  self.ast_func_exprid(instructions.child[1],func.leaf)
-                        program.append(func_eval)
-
-
-
-
-
+                   op = self.function.table[instructions.child[0]]
+                   if op.op == "exprid":
+                      func = self.ast_func_exprid(instructions.child[1],op.leaf)
+                      program.append(func)
             
+            if instructions.op == "mod-term":
+                mod = self.ast_term_mod_term(instructions.child)
+                program.append(mod)
+
+            if instructions.op == "mod-id":
+                variable = instructions.child[0]
+                mod = self.ast_term_mod_term(instructions.child[1:])
+                self.table.populatetable(variable,mod)
+
+            if instructions.op == "map-list":
+                map_list = self.ast_map_list(instructions.child)
+                print(map_list)
+
+
+
             
             if instructions.op == "list":
                 list_op = self.ast_list_op_terms(instructions.child,instructions.leaf)
