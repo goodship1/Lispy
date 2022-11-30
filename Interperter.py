@@ -844,7 +844,7 @@ class Interperter:
         length_list_one =  len(list_one)
         length_list_two =  len(list_two)
         if length_list_one == length_list_two:
-            new_list = zip(list_one,list_two)
+            new_list = list(zip(list_one,list_two))
             if expression[0] == "+":
                 for items in range(len(new_list)):
                     result =  int(new_list[items][0]) + int(new_list[items][1])
