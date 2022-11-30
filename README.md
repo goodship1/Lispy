@@ -51,8 +51,8 @@ https://user-images.githubusercontent.com/10147276/201181288-030e0f49-7439-4678-
 
 # List Operations 
 # map + * / -
-(map + list ( 1 2 3 1) ( 2 3 1 1))
-(define map + list ( 1 2 3 1) (2 3 1 1))
+(map + list ( 1 2 3 1) list ( 2 3 1 1))
+(define map + list ( 1 2 3 1) list(2 3 1 1))
 
 (search (args) list)
 
