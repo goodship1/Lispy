@@ -49,9 +49,16 @@ https://user-images.githubusercontent.com/10147276/201181288-030e0f49-7439-4678-
 (cons x y) # appends x onto y
 (define c first list 1 2 3 1) #c= 1
 
+# List Operations 
+# map + * / -
+(map + list ( 1 2 3 1) ( 2 3 1 1))
+(define map + list ( 1 2 3 1) (2 3 1 1))
+
+(search (args) list)
+
 # Functions 
 (defunc add_two (x) (+ 2 x )) 
-(add_two(3)
+(add_two(3))
 
 # Trig Operations
 
@@ -76,6 +83,5 @@ https://user-images.githubusercontent.com/10147276/201185253-a8f4b786-5c6c-4792-
 # TODO 
 - Structures 
 - Lamdba functions
-- map opeartions on lists
 - Repl update
 
