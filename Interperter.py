@@ -843,6 +843,7 @@ class Interperter:
         return_list = []
         length_list_one =  len(list_one)
         length_list_two =  len(list_two)
+        print(length_list_one < length_list_two)
         if length_list_one == length_list_two:
             new_list = list(zip(list_one,list_two))
             if expression[0] == "+":
@@ -1284,7 +1285,7 @@ class Interperter:
                 variable = instructions.child[0]
                 instructions.child = instructions.child[1:]
                 map_list = self.ast_map_list(instructions.child)
-                print(map_list)
+                self.table.populatetable(variable,map_list)
             
 
             
@@ -1292,7 +1293,7 @@ class Interperter:
                 variables = [instructions.child[0],instructions.child[0]]
                 check = self.symboltablecheck(variables)
                 if check == True:
-                    print(self.table.table['y'])
+                    pass
                 
 
             
