@@ -875,7 +875,6 @@ class Interperter:
                  for items in range(len(new_list)):
                      result = int(new_list[items][0]) +  int(new_list[items][1])
                      return_list.append(result)
-                 return return_list
             
             if expression[0] == "-":
                  add_to = [0] * extend_by
@@ -884,7 +883,6 @@ class Interperter:
                  for items in range(len(new_list)):
                      result = int(new_list[items][0]) - int(new_list[items][1])
                      return_list.append(result)
-                 return return_list
 
             if expression[0] == "*":
                 add_to = [1] * extend_by
@@ -893,7 +891,6 @@ class Interperter:
                 for items in range(len(new_list)):
                     result = int(new_list[items][0]) * int(new_list[items][1])
                     return_list.append(result)
-                return return_list
             
             if expression[0] == "\\":
                 add_to =  [1] * extend_by
@@ -905,10 +902,11 @@ class Interperter:
                         return_list.append(result)
                     except Exception as e:
                         raise NameError("Zero divisor")
-                return return_list
+            return return_list
            
                 
-            if length_list_one < length_list_two:
+        if  length_list_one < length_list_two:
+                extend_by  = length_list_one - length_list_two
                 if expression[0] == "+":
                     add_to = [0] * extend_by
                     list_one = list_one + add_to
@@ -916,7 +914,6 @@ class Interperter:
                     for items in range(len(new_list)):
                         result =  int(new_list[items][0]) + int(new_list[items][1])
                         return_list.append(result)
-                    return return_list
 
                 if expression[0] == "-":
                     add_to = [0] * extend_by
@@ -925,7 +922,6 @@ class Interperter:
                     for items in range(len(new_list)):
                         result = int(new_list[items][0]) - int(new_list[items][1])
                         return_list.append(result)
-                    return return_list
                 
                 if expression[0] == "*":
                     add_to = [1] * extend_by
@@ -934,7 +930,6 @@ class Interperter:
                     for items in range(len(new_list)):
                         result = int(new_list[items][0]) * int(new_list[items][1])
                         return_list.append(result)
-                    return return_list
                
                 if expression[0] == "\\":
                    add_to = [1] * extend_by
@@ -946,7 +941,7 @@ class Interperter:
                            return_list.append(result)
                        except Exception as e:
                           raise NameError("Zero divisor error")
-                   return return_list
+                return return_list
                
 
 
@@ -1285,7 +1280,20 @@ class Interperter:
                 map_list = self.ast_map_list(instructions.child)
                 print(map_list)
 
+            if instructions.op == "map-define":
+                variable = instructions.child[0]
+                instructions.child = instructions.child[1:]
+                map_list = self.ast_map_list(instructions.child)
+                print(map_list)
+            
 
+            
+            if instructions.op == "search-list":
+                variables = [instructions.child[0],instructions.child[0]]
+                check = self.symboltablecheck(variables)
+                if check == True:
+                    print(self.table.table['y'])
+                
 
             
             if instructions.op == "list":
