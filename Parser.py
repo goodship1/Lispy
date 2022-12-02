@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from Lexer import tokens
+from Lexer import token
 from Symboltable import Symboltable
 from Ast import Node
     
@@ -610,12 +610,18 @@ def p_args(p):
     except Exception as e:
        p[0]
 
-def p_search(p):
-    '''expr : opening SEARCH id opening terms closing  closing
-            | opening SEARCH id opening args closing closing
-            | opening SEARCH id opening strings closing closing
-            '''
-    p[0] =  Node("search-list",[p[3],p[5]],"search")
+def p_search_terms(p):
+    'expr : opening SEARCH id opening terms closing closing'
+    p[0] =  Node("search-terms",[p[3],p[5]],"search")
+
+def p_search_args(p):
+    'expr : opening SEARCH id opening args closing closing'
+    p[0] = Node("search-args",[p[3],p[5]],"search")
+
+def p_search_strings(p):
+    'expr : opening SEARCH id opening strings closing closing'
+    p[0] = Node("search-strings",[p[3],p[5]],"search")
+
 
 
 def p_defstruct(p):
