@@ -481,8 +481,7 @@ class Interperter:
         new_list = list(expression[1])
         return new_list
 
-
-    
+ 
 
     def ast_list_op_id(self,expr,op):
         variable =  expr[1].split(" ")[1]
@@ -1034,6 +1033,17 @@ class Interperter:
                     return True
             except Exception as e:
                 raise NameError("Incompatiable types")
+    
+
+    def ast_search_terms(self,expression):
+        get_list = self.table.table[expression[0]]
+        truth_list = [True]*len(expression[1])
+        compare = []
+        for items in expression[1]:
+            if items in get_list:
+                compare.append(True)
+        return len(compare) == len(truth_list)
+
 
 
 
@@ -1232,6 +1242,18 @@ class Interperter:
             if instructions.op == "string-list-op":
                 list_op = self.ast_list_op_strings(instructions.child,instructions.leaf)
                 program.append(list_op)
+
+            if instructions.op == "search-terms":
+                variable = instructions.child[0]
+                if  self.table.table[variable]:
+                    check = self.table.table[variable]
+                    if type(check) == type([]):
+                        terms =  self.ast_search_terms(instructions.child)
+                        program.append(terms)
+                    else:
+                        raise NameError("Not of type list")
+
+                
 
             
             if instructions.op == "cons-define":
