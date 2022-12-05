@@ -80,8 +80,5 @@ Create an .ls file similar to demo.ls file  and run the following command python
 
 https://user-images.githubusercontent.com/10147276/201185253-a8f4b786-5c6c-4792-9459-29a107461a56.mp4
 
-# TODO 
-- Structures 
-- Lamdba functions
-- Repl update
+
 
