@@ -1044,6 +1044,41 @@ class Interperter:
                 compare.append(True)
         return len(compare) == len(truth_list)
 
+    
+    def ast_search_strings(self,expression):
+        get_list = self.table.table[expression[0]]
+        truth_list = [True] * len(expression[1])
+        compare = []
+        for items in expression[1]:
+            if items in get_list:
+                compare.append(True)
+        return len(compare) == len(truth_list)
+        
+
+
+
+    def ast_search_args(self,expression):
+        get_list  = self.table.table[expression[0]]
+        truth_list =  [True] * len(expression[1])
+        arg_list = []
+        args =  expression[1]
+        compare = []
+        for items in args:
+            try:
+                arg = self.table.table[items]
+                arg_list.append(items)
+            except Exception as e:
+                raise NameError("Variable not defined")
+        if len(arg_list) == len(truth_list):
+            for items in arg_list:
+                if str(self.table.table[items]) in get_list:
+                    compare.append(True)
+
+        return len(compare)  == len(truth_list)
+
+
+
+
 
 
 
@@ -1252,8 +1287,27 @@ class Interperter:
                         program.append(terms)
                     else:
                         raise NameError("Not of type list")
+            
+            if instructions.op == "search-args":
+                variable =  instructions.child[0]
+                if self.table.table[variable]:
+                    check =  self.table.table[variable]
+                    if type(check) == type([]):
+                        args = self.ast_search_args(instructions.child)
+                        program.append(args)
+                    else:
+                        raise NameError("Not of type list")
 
-                
+            if instructions.op == "search-strings":
+                variable =  instructions.child[0]
+                if self.table.table[variable]:
+                    check = self.table.table[variable]
+                    if type(check) == type([]):
+                        strings =  self.ast_search_args(instructions.child)
+                        program.append(strings)
+                    else:
+                        raise NameError("Not of type list")
+
 
             
             if instructions.op == "cons-define":
