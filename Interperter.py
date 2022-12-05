@@ -1362,17 +1362,7 @@ class Interperter:
                 instructions.child = instructions.child[1:]
                 map_list = self.ast_map_list(instructions.child)
                 self.table.populatetable(variable,map_list)
-            
-
-            
-            if instructions.op == "search-list":
-                variables = [instructions.child[0],instructions.child[0]]
-                check = self.symboltablecheck(variables)
-                if check == True:
-                    pass
-                
-
-            
+                    
             if instructions.op == "list":
                 list_op = self.ast_list_op_terms(instructions.child,instructions.leaf)
                 program.append(list_op)
