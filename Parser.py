@@ -1,21 +1,23 @@
 import ply.yacc as yacc
-from Lexer import token
+from Lexer import tokens
 from Symboltable import Symboltable
 from Ast import Node
     
 table =  Symboltable()
 
 def p_plus(p):
-        #parser rule for (+ term term)
+        #Parser rule for (+ term term)
         'expr : opening plus term term closing'
         p[0] = Node("exprterm",[p[3],p[4]],p[2])
 
 
 def p_divide(p):
+    #Parser rule for ( \ term term)
     'expr : opening divide term term closing'
     p[0] =  Node("exprterm",[p[3],p[4]],p[2])
 
 def p_divideidid(p):
+    #Parser rule for ( \ id id)
     'expr : opening divide id id closing'
     id_one = "lookup {id_one}".format(id_one = p[3])
     id_two = "lookup {id_two}".format(id_two = p[4])
@@ -25,6 +27,8 @@ def p_divideidid(p):
 
 
 def p_id_compare_term(p):
+    #Parser rule for logical compares of eg (< a 10)
+    #if a exists
     '''expr : opening greaterthan id term closing
           | opening greaterthan term id closing
           | opening lessthan term id closing
@@ -44,27 +48,32 @@ def p_id_compare_term(p):
 
 
 def p_minus(p):
+    #Parser rule for (- term term )
     'expr : opening minus term term closing'
     p[0] = Node("exprterm",[p[3],p[4]],p[2])
 
 def p_times(p):
+    #Parser rule for (* term term)
     'expr : opening times term term closing'
     p[0] = Node("exprterm",[p[3],p[4]],p[2])
 
 def p_cos(p):
+    #Parser rule  for ( cos term)
     'expr : opening COS term closing'
     p[0] = Node("exprterm",[p[3],p[3]],"cos")
 
 def p_sin(p):
+    #Parser rule for (sin term)
     'expr : opening SIN term closing'
     p[0] =  Node("exprterm",[p[3],p[3]],"sin")
 
 def p_greaterthan(p):
-    #parser rule for (< 100 200) = false 
+    #Parser rule for (> 100 200) = false 
     'expr : opening greaterthan term term closing'
     p[0] = Node("exprterm",[p[3],p[4]],p[2])
 
 def p_lessthan(p):
+    #Parser rule for (> 400 1)
     'expr : opening lessthan term term closing'
     p[0] = Node("exprterm",[p[3],p[4]],p[2])
 
@@ -339,25 +348,26 @@ def p_power_term(p):
 
 
 def p_list_term(p):
-    '''expr : opening LIST terms closing
-            | opening LIST term closing
+    '''expr : opening LIST opening terms closing closing
+            | opening LIST opening term closing closing
             '''
-    p[0] =  Node("list-terms",[p[3],p[3]],"list")
+    p[0] =  Node("list-terms",[p[4],p[4]],"list")
 
 
 def p_list_op_define(p):
-    '''expr : opening DEFINE id FIRST LIST terms closing
-          | opening DEFINE id SECOND LIST terms closing
-          | opening DEFINE id THIRD LIST terms closing
-          | opening DEFINE id FOURTH LIST terms closing
-          | opening DEFINE id FIFTH LIST terms closing
-          | opening DEFINE id SIXTH LIST terms closing
-          | opening DEFINE id SEVENTH LIST terms closing
-          | opening DEFINE id EIGHTH LIST terms closing
-          | opening DEFINE id NINETH LIST terms closing
-          | opening DEFINE id TENTH LIST terms closing
+    '''expr : opening DEFINE id FIRST LIST opening terms closing closing
+          | opening DEFINE id SECOND LIST opening terms closing closing
+          | opening DEFINE id THIRD LIST opening terms closing closing
+          | opening DEFINE id FOURTH LIST opening terms closing closing
+          | opening DEFINE id FIFTH LIST opening terms closing closing
+          | opening DEFINE id SIXTH LIST opening terms closing closing 
+          | opening DEFINE id SEVENTH LIST opening terms closing closing
+          | opening DEFINE id EIGHTH LIST opening terms closing closing
+          | opening DEFINE id NINETH LIST opening terms closing closing
+          | opening DEFINE id TENTH LIST opening  terms closing closing
           '''
-    p[0] = Node("list-define-op",[p[3],p[4],p[6]],"list")
+    p[0] = Node("list-define-op",[p[3],p[4],p[7]],"list")
+
 
     
 
@@ -420,8 +430,8 @@ def p_terms(p):
 
 
 def p_lists(p):
-    'expr : opening DEFINE id LIST terms  closing'
-    p[0] = Node("list-define",[p[3],p[4],p[5]],"[id]")
+    'expr : opening DEFINE id LIST opening  terms  closing closing'
+    p[0] = Node("list-define",[p[3],p[4],p[6]],"[id]")
 
 
 def p_list_variable_op(p):
@@ -441,61 +451,62 @@ def p_list_variable_op(p):
 
 
 def p_ops_string_list(p):
-    '''expr : opening FIRST LIST strings closing
-            | opening SECOND LIST strings closing
-            | opening THIRD LIST strings closing
-            | opening FOURTH LIST strings closing
-            | opening FIFTH LIST strings closing
-            | opening SIXTH LIST strings closing
-            | opening SEVENTH LIST strings closing
-            | opening EIGHTH LIST strings closing
-            | opening NINETH LIST strings closing
-            | opening TENTH LIST strings closing
+    '''expr : opening FIRST LIST opening strings closing closing
+            | opening SECOND LIST opening strings closing closing
+            | opening THIRD LIST opening strings closing closing
+            | opening FOURTH LIST opening strings closing closing
+            | opening FIFTH LIST opening strings closing closing
+            | opening SIXTH LIST opening strings closing closing
+            | opening SEVENTH LIST opening strings closing closing
+            | opening EIGHTH LIST opening strings closing closing
+            | opening NINETH LIST opening strings closing closing
+            | opening TENTH LIST opening strings closing closing 
         '''
-    p[0] =  Node("string-list-op",[p[2],p[4]],p[2])
+    p[0] =  Node("string-list-op",[p[2],p[5]],p[2])
 
 
 def p_define_string_list_op(p):
-    ''' expr : opening DEFINE id FIRST LIST strings  closing
-             | opening DEFINE id SECOND LIST strings closing
-             | opening DEFINE id THIRD LIST strings closing
-             | opening DEFINE id FOURTH LIST strings closing
-             | opening DEFINE id SIXTH LIST strings closing
-             | opening DEFINE id SEVENTH LIST strings closing
-             | opening DEFINE id EIGHTH LIST strings closing
-             | opening DEFINE id NINETH LIST strings closing
-             | opening DEFINE id TENTH LIST strings closing
+    ''' expr : opening DEFINE id FIRST LIST opening strings  closing closing 
+             | opening DEFINE id SECOND LIST opening strings closing closing
+             | opening DEFINE id THIRD LIST opening strings closing closing 
+             | opening DEFINE id FOURTH LIST opening strings closing closing 
+             | opening DEFINE id SIXTH LIST opening strings closing closing
+             | opening DEFINE id SEVENTH LIST opening strings closing closing 
+             | opening DEFINE id EIGHTH LIST opening strings closing closing
+             | opening DEFINE id NINETH LIST opening strings closing closing
+             | opening DEFINE id TENTH LIST opening strings closing closing
              '''
-    p[0] =  Node("define-string-list",[p[3],p[4],p[6]],"list")
+    p[0] =  Node("define-string-list",[p[3],p[4],p[7]],"list")
+
 
 
 
 
 
 def p_string_list(p):
-    'expr : opening LIST strings closing'
-    p[0] = Node("list-string-term",[p[3],p[3]],"list")
+    'expr : opening LIST opening strings closing closing'
+    p[0] = Node("list-string-term",[p[4],p[4]],"list")
 
 
 def p_define_string_list(p):
-    'expr : opening DEFINE id LIST strings closing'
-    p[0] =  Node("string-list-define",[p[3],p[5]],"list")
+    'expr : opening DEFINE id LIST  opening strings closing closing'
+    p[0] =  Node("string-list-define",[p[3],p[6]],"list")
 
 
 def p_ops_list(p):
-    '''expr : opening FIRST LIST terms closing
-          | opening FIRST LIST term closing
-          | opening SECOND LIST terms closing
-          | opening THIRD LIST terms closing
-          | opening FIFTH LIST terms closing
-          | opening SIXTH LIST terms closing
-          | opening SEVENTH LIST terms closing
-          | opening EIGHTH LIST terms  closing
-          | opening NINETH LIST terms closing 
-          | opening TENTH LIST terms closing 
+    '''expr : opening FIRST LIST opening terms closing closing
+          | opening FIRST LIST opening term closing closing 
+          | opening SECOND LIST opening terms closing closing
+          | opening THIRD LIST opening terms closing closing
+          | opening FIFTH LIST opening terms closing closing
+          | opening SIXTH LIST opening terms closing closing
+          | opening SEVENTH LIST opening terms closing closing 
+          | opening EIGHTH LIST opening terms  closing closing
+          | opening NINETH LIST opening terms closing closing
+          | opening TENTH LIST opening terms closing closing
 
           '''
-    p[0] = Node("list",[p[2],p[4]],p[2])
+    p[0] = Node("list",[p[2],p[5]],p[2])
 
 def p_string_terms(p):
     '''strings : string
@@ -625,12 +636,13 @@ def p_search_strings(p):
 
 
 def p_defstruct(p):
-    'expr : opening DESTRUCT id opening args closing closing'
-    p[0] =  Node("create-struct",[p[3],p[5]],"struct")
+    'expr : opening DESTRUCT id  opening args closing   closing'
+    struct_name = "struct_name {name}".format(name =  p[3])
+    p[0] =  Node("create-struct",[struct_name,p[5]],"struct")
 
 
 def p_map(p):
-    '''expr : opening MAP plus  LIST opening terms closing LIST opening terms closing closing
+    '''map : opening MAP plus  LIST opening terms closing LIST opening terms closing closing
             | opening MAP minus LIST opening terms closing LIST opening terms closing closing
             | opening MAP times LIST opening terms closing LIST opening terms closing closing
             | opening MAP divide LIST opening terms closing LIST opening terms closing closing'''
@@ -647,6 +659,70 @@ def p_mod_terms(p):
     'expr : opening MOD term term closing'
     p[0] = Node("mod-term",[p[3],p[4]],"%")
 
+def p_type(p):
+    '''type : term
+             | string 
+             | List
+             | map'''
+    p[0] = p[1]
+
+
+def p_types(p):
+    '''types : type
+             | type type
+             | type type type
+             | type type type type
+             | type type type type type
+             | type type type type type type
+             | type type type type type type type
+             | type type type type type type type type type 
+             '''
+    p[0] = []
+    try:
+        if p[1]:
+            p[0].append(p[1])
+        if p[2]:
+            p[0].append(p[2])
+        if p[3]:
+            p[0].append(p[3])
+        if p[4]:
+            p[0].append(p[4])
+        if p[5]:
+            p[0].append(p[5])
+
+        if p[6]:
+            p[0].append(p[6])
+
+        if p[7]:
+            p[0].append(p[7])
+
+        if p[8]:
+            p[0].append(p[8])
+
+        if p[9]:
+            p[0].append(p[9])
+
+        if p[10]:
+            p[0].append(p[10])
+    except Exception as e:
+       p[0]
+
+
+def p_list(p):
+    '''List : LIST opening terms closing 
+            | LIST opening strings closing
+            | LIST opening  args closing
+            '''
+    p[0] =  p[3]
+
+
+
+
+def p_create_struct(p):
+    'expr : opening MAKE id opening types closing closing'
+    p[0] = Node("make-struct", [p[3],p[5]],"struct-define")
+
+    
 
 def p_mod_define(p):
     'expr : opening DEFINE id MOD term term closing'
@@ -654,4 +730,5 @@ def p_mod_define(p):
 
 
 parser = yacc.yacc()
+
 
