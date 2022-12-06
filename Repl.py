@@ -149,11 +149,52 @@ class Replit:
                 if prog.op == "cons-terms":
                     self.interperter.parse.append(prog)
                     self.interperter.visitnodes()
-                
+
                 if prog.op == "map-list":
                     self.interperter.parse.append(prog)
                     self.interperter.visitnodes()
 
-                  
+                if prog.op == "list-id-op":
+                    try:
+                        self.interperter.parse.append(prog)
+                        nodes = self.interperter.visitnodes()
+                        self.interperter.runprogram(nodes)
+
+                    except Exception as e:
+                        print("Syntax error")
+                        
+
+
+
+
+                   
+
+
+
+                    
+
+
+
+
+
+
+
+                    
+
+
+
+
+
+
+
+
+                    
+
+
+                    
+
+                    
+            
+
 repl = Replit()
 repl.repl()
