@@ -149,6 +149,10 @@ class Replit:
                 if prog.op == "cons-terms":
                     self.interperter.parse.append(prog)
                     self.interperter.visitnodes()
+                
+                if prog.op == "map-list":
+                    self.interperter.parse.append(prog)
+                    self.interperter.visitnodes()
 
                   
 repl = Replit()
