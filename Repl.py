@@ -1,11 +1,13 @@
 from Parser import parser
-from Lexer import scanner
+from Lexer import tokens
 from Interperter import Interperter
 
 class Replit:
     
     def __init__(self):
         self.interperter = Interperter()
+        self.table  = {}
+
     
 
     def eval_term_expression(self,expression):
@@ -33,6 +35,12 @@ class Replit:
             print(self.interperter.ast_greaterthaneq(expression.child))
         if expression.leaf == "<=":
             print(self.interperter.ast_lessthaneq(expression.child))
+        if expression.leaf == "%":
+            try:
+                print(int(expression.child[0]) % int(expression.child[1]))
+            except Exception as e:
+                print("syntax error")
+
         
     def eval_trig_expressions(self,expr,op):
         print(op,expr)
@@ -56,67 +64,92 @@ class Replit:
                print(int(first) ** int(second))
             except Exception as e:
                 print("variable not defined")
-            
-
-
     
-    def variable_display(self,variable):
-        var = variable[0] 
-        display = self.interperter.table.table[str(variable[0])]
-        show = "{var} -> {value}".format(var = var,value = display)
+    def display_variable(self,variable):
+        value = self.interperter.table.table[variable]
+        show = "{var} -> {value}".format(var = variable,value = value)
         print(show)
+
+
     
 
     def repl(self):
+        check = []
         while True:
             commands = input("#")
-            res = parser.parse(commands)
-            try:
-                if res.op == "assignid":
-                     program = self.interperter.program.append(commands)
-                     self.interperter.run_parser(program)
-                     self.interperter.visitnodes()
-                     self.variable_display(res.child)
-                self.interperter.parse.append(res)
-                if res.op == "assignplus":
-                        self.interperter.visitnodes()
-                        self.variable_display(res.child)
-                if res.op == "assignminus":
-                        self.interperter.visitnodes()
-                        self.variable_display(res.child)
-                if res.op == "assigntimes":
-                        self.interperter.visitnodes()
-                        self.variable_display(res.child)
-                if res.op == "assigngreaterthan":
-                        self.interperter.visitnodes()
-                        self.variable_display(res.child)
-                if res.op == "assignlessthan":
-                        self.interperter.visitnodes()
-                        self.variable_display(res.child)
-                if res.op == "exprterm":
-                        self.eval_term_expression(res)
-                if res.op == "assignlessthaneq":
-                        self.interperter.visitnodes()
-                        self.variable_display(res.child)
-                if res.op == "assigngreaterthaneq":
-                        self.interperter.visitnodes()
-                        self.variable_display(res.child)
-                if res.op == "exprid":
-                        self.interperter.visitnodes()
-                        self.eval_expression_id(res.child,res.leaf)
+            prog =  parser.parse(commands)
+            if prog != None: 
+                if prog.op == "exprterm":
+                    self.eval_term_expression(prog)
                 
+                if prog.op == "assignplus":
+                   self.interperter.parse.append(prog)
+                   nodes=self.interperter.visitnodes()
+                   self.interperter.runprogram(nodes)
+                   variable  = prog.child[0]
+                   self.display_variable(variable)
+                
+                if prog.op == "assignminus":
+                    self.interperter.parse.append(prog)
+                    nodes = self.interperter.visitnodes()
+                    self.interperter.runprogram(nodes)
+                    variable = prog.child[0]
+                    self.display_variable(variable)
+                
+                if prog.op == "assigntimes":
+                    self.interperter.parse.append(prog)
+                    nodes = self.interperter.visitnodes()
+                    variable = prog.child[0]
+                    self.display_variable(variable)
+                
+                if prog.op == "assigndiv":
+                    
+                    zero_check =  int(prog.child[2]) == int(0)
+                    if zero_check == True:
+                        print("syntax error")
+                    else:
+                        self.interperter.parse.append(prog)
+                        nodes  = self.interperter.visitnodes()
+                        variable = prog.child[0]
+                        self.display_variable(variable)
+                
+                if prog.op == "assigngreater":
+                    self.interperter.parse.append(prog)
+                    nodes = self.interperter.visitnodes()
+                    variable =  prog.child[0]
+                    self.display_variable(variable)
 
-                if res.op == "exprtrigterm":
-                        self.interperter.visitnodes()
-                        print(res.child,res.leaf)
-                        self.eval_trig_expressions(res.child,res.leaf)
-                          
-                if res.op == "assignpower":
-                        self.interperter.visitnodes()
-                        self.variable_display(res.child)
+                if prog.op == "assignlessthan":
+                    self.interperter.parse.append(prog)
+                    nodes =  self.interperter.visitnodes()
+                    variable = prog.child[0]
+                    self.display_variable(variable)
 
-            except Exception as e:
-                print(" ")
+                if prog.op == "assigngreatereq":
+                    self.interperter.parse.append(prog)
+                    nodes = self.interperter.visitnodes()
+                    variable =  prog.child[0]
+                    self.display_variable(variable)
+                
+                if prog.op == "assignlessthaneq":
+                    self.interperter.parse.append(prog)
+                    nodes =  self.interperter.visitnodes()
+                    variable = prog.child[0]
+                    self.display_variable(variable)
 
+                if prog.op == "list-define":
+                    self.interperter.parse.append(prog)
+                    nodes  = self.interperter.visitnodes()
+                    variable = prog.child[0]
+                    self.display_variable(variable)
+                
+                if prog.op == "mod-term":
+                   self.eval_term_expression(prog)
+
+                if prog.op == "cons-terms":
+                    self.interperter.parse.append(prog)
+                    self.interperter.visitnodes()
+
+                  
 repl = Replit()
 repl.repl()
