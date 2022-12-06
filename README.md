@@ -1,6 +1,6 @@
 # Lispy
 
-An small Lispy Language 
+An small Lisp like  Language 
 
 
 # REPL IT
