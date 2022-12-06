@@ -642,7 +642,7 @@ def p_defstruct(p):
 
 
 def p_map(p):
-    '''map : opening MAP plus  LIST opening terms closing LIST opening terms closing closing
+    '''expr : opening MAP plus  LIST opening terms closing LIST opening terms closing closing
             | opening MAP minus LIST opening terms closing LIST opening terms closing closing
             | opening MAP times LIST opening terms closing LIST opening terms closing closing
             | opening MAP divide LIST opening terms closing LIST opening terms closing closing'''
@@ -662,8 +662,7 @@ def p_mod_terms(p):
 def p_type(p):
     '''type : term
              | string 
-             | List
-             | map'''
+             | List'''
     p[0] = p[1]
 
 
