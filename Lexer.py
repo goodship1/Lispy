@@ -11,6 +11,12 @@ def t_colon(t):
     t.type =  keywords.get(t.value,"colon")
     return t 
 
+def t_set(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+     t.type = keywords.get(t.value,"set")
+     return t 
+     
+
 def t_print(t):
     'r[a-zA-Z_][a-zA-Z_0-9]*'
      t.type = keywords.get(t.value,"print")
