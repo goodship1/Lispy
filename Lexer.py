@@ -1,6 +1,6 @@
 import ply.lex as scanner
     
-keywords = {"print":"PRINT","map":"MAP","defunc":"DEFUNC","cons":"CONS","tenth":"TENTH","nineth":"NINETH","eighth":"EIGHTH","seventh":"SEVENTH","sixth":"SIXTH","fifth":"FIFTH","fourth":"FOURTH","sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST","first":"FIRST","second":"SECOND","THIRD":"THIRD","destruct":"DESTRUCT","search":"SEARCH","mod":"MOD"}
+keywords = {"exist":"EXIST","print":"PRINT","map":"MAP","defunc":"DEFUNC","cons":"CONS","tenth":"TENTH","nineth":"NINETH","eighth":"EIGHTH","seventh":"SEVENTH","sixth":"SIXTH","fifth":"FIFTH","fourth":"FOURTH","sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST","first":"FIRST","second":"SECOND","THIRD":"THIRD","destruct":"DESTRUCT","search":"SEARCH","mod":"MOD"}
     
 tokens = ["string","id","lessthaneq","greaterthaneq","integer","greaterthan","plus","minus","times","divide","lessthan","opening","closing","left","right"]+list(keywords.values())
 
@@ -16,6 +16,11 @@ def t_print(t):
      t.type = keywords.get(t.value,"print")
      return t 
 	
+def t_exist(t):
+   'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type  = keywords.get(t.value,"exist")
+    return t 
+
 
 def t_div_m(t):
     'r[a-zA-Z_][a-zA-Z_0-9]*'
