@@ -11,6 +11,8 @@ def p_plus(p):
         p[0] = Node("exprterm",[p[3],p[4]],p[2])
 
 
+	
+
 def p_divide(p):
     #Parser rule for ( \ term term)
     'expr : opening divide term term closing'
@@ -715,7 +717,26 @@ def p_list(p):
     p[0] =  p[3]
 
 
+def p_set_list(p):
+    'expr : opening SET LIST CLOSING'
+     p[0] = Node("set-list",[p[3],p[3]],"set-list")
 
+
+
+def p_set(p):
+    '''set : SET opening terms closing
+    	    | SET opening strings closing
+	    | SET opening args closing'''
+  
+    p[0] = p[3]
+
+
+
+def p_define_set(p):
+    'expr : opening DEFINE id set closing'
+     p[0]  = Node("define-set",[p[3],p[4]],"define-set")
+
+	
 
 def p_create_struct(p):
     'expr : opening MAKE id opening types closing closing'
