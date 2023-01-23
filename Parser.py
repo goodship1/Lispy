@@ -718,13 +718,13 @@ def p_list(p):
 
 
 def p_set_list(p):
-    'expr : opening SET LIST CLOSING'
-     p[0] = Node("set-list",[p[3],p[3]],"set-list")
+    'expr : opening SET List closing'
+    p[0] = Node("set-list",[p[3],p[3]],"set-list")
 
 
 
 def p_set(p):
-    '''set : SET opening terms closing
+    '''expr : SET opening terms closing
     	    | SET opening strings closing
 	    | SET opening args closing'''
   
@@ -734,15 +734,9 @@ def p_set(p):
 
 def p_define_set(p):
     'expr : opening DEFINE id set closing'
-     p[0]  = Node("define-set",[p[3],p[4]],"define-set")
+    p[0]  = Node("define-set",[p[3],p[4]],"define-set")
 
-	
-
-def p_create_struct(p):
-    'expr : opening MAKE id opening types closing closing'
-    p[0] = Node("make-struct", [p[3],p[5]],"struct-define")
-
-    
+	    
 
 def p_mod_define(p):
     'expr : opening DEFINE id MOD term term closing'
