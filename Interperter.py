@@ -1079,7 +1079,16 @@ class Interperter:
 
 
 
+    def ast_set_list(self,expression):
+        #To apply set to a list
+        data =  expression[0]
+        new_list =  []
+        for items in data:
+            if items not in new_list:
+                new_list.append(items)
+        return new_list
 
+    
 
 
     def visitnodes(self):
@@ -1383,6 +1392,21 @@ class Interperter:
                 check = self.symboltablecheck(lookup)
                 term_id = self.ast_term_id(instructions.child,instructions.leaf)
                 program.append(term_id)
+
+            if instructions.op == "set-list":
+                set_list =  self.ast_set_list(instructions.child)
+                print(set_list)
+
+            if instructions.op == "define-set-terms":
+                variable  = instructions.child[0]
+                define_set = self.ast_set_list(instructions.child)
+                self.table.populatetable(variable,define_set)
+
+                
+
+
+
+
 
 
 
