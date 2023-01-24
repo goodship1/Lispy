@@ -732,9 +732,9 @@ def p_set(p):
 
 
 
-def p_define_set(p):
-    'expr : opening DEFINE id set closing'
-    p[0]  = Node("define-set",[p[3],p[4]],"define-set")
+def p_define_set_terms(p):
+    'expr : opening DEFINE id SET opening terms closing closing'
+    p[0] = Node("define-set-terms",[p[3],p[6]],"define-set-terms")
 
 	    
 
@@ -744,5 +744,3 @@ def p_mod_define(p):
 
 
 parser = yacc.yacc()
-
-
