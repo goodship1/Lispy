@@ -731,12 +731,31 @@ def p_set(p):
     p[0] = p[3]
 
 
+def p_intersection_set_lists(p):
+    '''expr : opening INTERSECTION SET opening terms closing SET opening terms closing  closing
+            | opening INTERSECTION SET opening strings closing SET opening strings closing closing'''
+    p[0] = Node("intersection-two-set",[p[5],p[9]],"intersection-two-set")
+
+def p_union_set_list(p):
+    '''expr : opening UNION SET opening terms closing SET opening terms closing closing
+            | opening UNION SET opening strings closing SET opening strings closing closing'''
+            
+    p[0] =  Node("union-two-set",[p[5],p[9]],"union-two-set")
+
+
+def p_difference_set_list(p):
+    '''expr : opening DIFFERENCE SET opening terms closing SET opening terms closing closing
+            | opening DIFFERENCE SET opening strings closing SET opening strings closing closing'''
+    p[0] =  Node("difference-two-set",p[5],p[9]] "difference-two-sets")
 
 def p_define_set_terms(p):
     'expr : opening DEFINE id SET opening terms closing closing'
     p[0] = Node("define-set-terms",[p[3],p[6]],"define-set-terms")
 
-	    
+def p_define_set_strings(p):
+    'expr : opening DEFINE id SET opening strings closing closing'
+    p[0] =  Node("define-set-terms", [p[3],p[6]],"define-set-terms")
+
 
 def p_mod_define(p):
     'expr : opening DEFINE id MOD term term closing'
@@ -744,3 +763,4 @@ def p_mod_define(p):
 
 
 parser = yacc.yacc()
+
