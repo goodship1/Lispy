@@ -1089,7 +1089,44 @@ class Interperter:
         return new_list
 
     
+    
+    def ast_set_intersection(self,expression):
+        set_one = expression[0]
+        set_two =  expression[1]
+        new_set_one = []
+        new_set_two = []
+        # First perform set operations
+        # On both sets 
+        for x in  set_one:
+            if x not in new_set_one:
+                new_set_one.append(x)
+        for x in set_two:
+            if x not in new_set_one:
+                new_set_two.append(x)
 
+        # Intersection of two sets
+        return new_set_one + new_set_two
+
+    
+
+
+    def ast_set_union(self,expression):
+        set_one = expression[0]
+        set_two = expression[1]
+        new_set_one = []
+        new_set_two = []
+        union_set = []
+        for x in set_one:
+            if x not in new_set_one:
+                new_set_one.append(x)
+        for x in set_two:
+            if x not in new_set_two:
+                new_set_two.append(x)
+        #Union set implementation
+        for x in new_set_one:
+            if x in new_set_two or x in new_set_one:
+                union_set.append(x)
+        return union_set
 
     def visitnodes(self):
         
@@ -1396,6 +1433,15 @@ class Interperter:
             if instructions.op == "set-list":
                 set_list =  self.ast_set_list(instructions.child)
                 print(set_list)
+
+            if instructions.op == "intersection-two-set":
+                set_intersection =  self.ast_set_intersection(instructions.child)
+                print(set_intersection)
+
+            if instructions.op == "union-two-set":
+                set_union =  self.ast_set_union(instructions.child)
+                print(set_union)
+
 
             if instructions.op == "define-set-terms":
                 variable  = instructions.child[0]
