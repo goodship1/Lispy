@@ -776,5 +776,3 @@ def p_mod_define(p):
 
 
 parser = yacc.yacc()
-p =  parser.parse("(intersection set(1 2 3 ) set(2 1 11))")
-print(p.child[0],p.child[1])
