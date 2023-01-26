@@ -746,15 +746,28 @@ def p_union_set_list(p):
 def p_difference_set_list(p):
     '''expr : opening DIFFERENCE SET opening terms closing SET opening terms closing closing
             | opening DIFFERENCE SET opening strings closing SET opening strings closing closing'''
-    p[0] =  Node("difference-two-set",p[5],p[9]] "difference-two-sets")
+    p[0] =  Node("difference-two-set",[p[5],p[9]],"difference-two-sets")
 
 def p_define_set_terms(p):
-    'expr : opening DEFINE id SET opening terms closing closing'
+    '''expr : opening DEFINE id SET opening terms closing closing
+            | opening DEFINE id SET opening strings closing closing'''
     p[0] = Node("define-set-terms",[p[3],p[6]],"define-set-terms")
 
-def p_define_set_strings(p):
-    'expr : opening DEFINE id SET opening strings closing closing'
-    p[0] =  Node("define-set-terms", [p[3],p[6]],"define-set-terms")
+
+def p_intersection_args(p):
+    'expr : opening INTERSECTION SET opening args closing closing'
+    p[0] = Node("intersection-set-args",[p[5],p[5]],"intersection-set-args")
+
+def p_union_args(p):
+    'expr : opening UNION SET opening args closing closing'
+    p[0] =  Node("union-set-args",[p[5],p[5]],"union-set-args")
+
+def p_difference_args(p):
+    'expr : opening DIFFERENCE SET opening args closing closing'
+    p[0] = Node("difference-set-args",[p[5],p[5]],"difference-set-args")
+
+
+
 
 
 def p_mod_define(p):
@@ -763,4 +776,5 @@ def p_mod_define(p):
 
 
 parser = yacc.yacc()
-
+p =  parser.parse("(intersection set(1 2 3 ) set(2 1 11))")
+print(p.child[0],p.child[1])
