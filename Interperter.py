@@ -1128,6 +1128,24 @@ class Interperter:
                 union_set.append(x)
         return union_set
 
+    def ast_set_difference(self,expression):
+        set_one = expression[0]
+        set_two =  expression[1]
+        new_set_one = []
+        new_set_two = []
+        difference_set = []
+        for data in set_one:
+            if data not in new_set_one:
+                new_set_one.append(data)
+        for data in set_two:
+            if data not in new_set_two:
+                new_set_two.append(data)
+        for data in set_one:
+            if data not in set_two:
+                difference_set.append(data)
+        return difference_set
+
+
     def visitnodes(self):
         
         program = []
@@ -1442,18 +1460,16 @@ class Interperter:
                 set_union =  self.ast_set_union(instructions.child)
                 print(set_union)
 
+            if instructions.op == "difference-two-set":
+                difference_set = self.ast_set_difference(instructions.child)
+                print(difference_set)
+
+
 
             if instructions.op == "define-set-terms":
                 variable  = instructions.child[0]
                 define_set = self.ast_set_list(instructions.child)
                 self.table.populatetable(variable,define_set)
-
-                
-
-
-
-
-
 
 
         return program
