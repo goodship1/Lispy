@@ -1,8 +1,8 @@
 import ply.lex as scanner
     
-keywords = {"set":"SET","union":"UNION","intersectio":"INTERSECTION","exist":"EXIST","print":"PRINT","map":"MAP","defunc":"DEFUNC","cons":"CONS","tenth":"TENTH","nineth":"NINETH","eighth":"EIGHTH","seventh":"SEVENTH","sixth":"SIXTH","fifth":"FIFTH","fourth":"FOURTH","sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST","first":"FIRST","second":"SECOND","THIRD":"THIRD","destruct":"DESTRUCT","search":"SEARCH","mod":"MOD"}
+keywords = {"use":"USE","set":"SET","union":"UNION","intersectio":"INTERSECTION","exist":"EXIST","print":"PRINT","map":"MAP","defunc":"DEFUNC","cons":"CONS","tenth":"TENTH","nineth":"NINETH","eighth":"EIGHTH","seventh":"SEVENTH","sixth":"SIXTH","fifth":"FIFTH","fourth":"FOURTH","sin":"SIN","cos":"COS","if":"IF","define":"DEFINE","sqrt":"SQRT","pow":"POW","fac":"FAC","list":"LIST","first":"FIRST","second":"SECOND","THIRD":"THIRD","destruct":"DESTRUCT","search":"SEARCH","mod":"MOD"}
     
-tokens = ["make","set","string","id","lessthaneq","greaterthaneq","integer","greaterthan","plus","minus","times","divide","lessthan","opening","closing","left","right"]+list(keywords.values())
+tokens = ["use","make","set","string","id","lessthaneq","greaterthaneq","integer","greaterthan","plus","minus","times","divide","lessthan","opening","closing","left","right"]+list(keywords.values())
 
 t_ignore =  "  \t"
 
@@ -16,6 +16,12 @@ def t_sets(t):
 	 t.type = keywords.get(t.value,"set")
 	 return t 
      
+
+def t_use(t):
+    'r[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = keywords.get(t.value,"use")
+    return t 
+
 
 def t_print(t):
     'r[a-zA-Z_][a-zA-Z_0-9]*'
