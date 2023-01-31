@@ -1145,6 +1145,28 @@ class Interperter:
                 difference_set.append(data)
         return difference_set
 
+    def ast_set_args(self,expression):
+        variables = expression[0]
+        var_len = len(variables)
+        symbols =  []
+        #check if varabiles exist in table
+        for data in variables:
+            try:
+                var = self.table.table[data]
+                symbols.append(var)
+            except Exception as e:
+                print("Variable doesnt exist")
+
+        if symbols != []:
+            check = type(symbols[0])
+            for data in symbols:
+                pass
+
+
+
+
+
+
 
     def visitnodes(self):
         
@@ -1464,7 +1486,13 @@ class Interperter:
                 difference_set = self.ast_set_difference(instructions.child)
                 print(difference_set)
 
+            
+            
+            if instructions.op == "set-args":
+                set_args =  self.ast_set_args(instructions.child)
 
+            if instructions.op == "union-set-args":
+                pass
 
             if instructions.op == "define-set-terms":
                 variable  = instructions.child[0]
