@@ -767,6 +767,9 @@ def p_difference_args(p):
     p[0] = Node("difference-set-args",[p[5],p[5]],"difference-set-args")
 
 
+def p_set_args(p):
+    'expr : opening SET opening args closing closing'
+    p[0] = Node("set-args",[p[4],p[4]],"set-args")
 
 
 
@@ -776,3 +779,4 @@ def p_mod_define(p):
 
 
 parser = yacc.yacc()
+
