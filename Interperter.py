@@ -1149,18 +1149,50 @@ class Interperter:
         variables = expression[0]
         var_len = len(variables)
         symbols =  []
+        store = []
+        new_set = []
         #check if varabiles exist in table
         for data in variables:
             try:
                 var = self.table.table[data]
                 symbols.append(var)
             except Exception as e:
-                print("Variable doesnt exist")
+                raise NameError("Variable doesnt exist")
+
 
         if symbols != []:
-            check = type(symbols[0])
-            for data in symbols:
-                pass
+            check  = symbols[0]
+            if type(check) == type(1):
+                for data in symbols:
+                    if type(data) == type(1):
+                        store.append(data)
+                if len(store) == len(symbols):
+                    for data in store:
+                        if data not in new_set:
+                            new_set.append(data)
+                else:
+                    raise NameError("Variable not compatiable")
+            
+            if type(check) == type("data"):
+                for data in symbols:
+                    if type(data) == type("data"):
+                        new_set.append(data)
+                if len(store) == len(symbols):
+                    for data in store:
+                        if data not in new_set:
+                            new_set.append(data)
+                else:
+                    raise NameError("Variable not compatiable")
+
+
+        return new_set
+
+
+
+
+
+
+
 
 
 
@@ -1490,6 +1522,7 @@ class Interperter:
             
             if instructions.op == "set-args":
                 set_args =  self.ast_set_args(instructions.child)
+                print(set_args)
 
             if instructions.op == "union-set-args":
                 pass
