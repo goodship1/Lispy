@@ -759,12 +759,12 @@ def p_intersection_args(p):
     p[0] = Node("intersection-set-args",[p[5],p[5]],"intersection-set-args")
 
 def p_union_args(p):
-    'expr : opening UNION SET opening args closing closing'
-    p[0] =  Node("union-set-args",[p[5],p[5]],"union-set-args")
+    'expr : opening UNION SET opening args closing  SET opening  args closing closing'
+    p[0] =  Node("union-set-args",[p[5],p[9]],"union-set-args")
 
 def p_difference_args(p):
-    'expr : opening DIFFERENCE SET opening args closing closing'
-    p[0] = Node("difference-set-args",[p[5],p[5]],"difference-set-args")
+    'expr : opening DIFFERENCE SET opening args closing SET opening args closing closing'
+    p[0] = Node("difference-set-args",[p[5],p[9]],"difference-set-args")
 
 
 def p_set_args(p):
@@ -779,4 +779,5 @@ def p_mod_define(p):
 
 
 parser = yacc.yacc()
-
+p =  parser.parse("(union set(a b c) set(a b x))")
+print(p.child[0],p.child[1])
