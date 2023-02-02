@@ -779,5 +779,3 @@ def p_mod_define(p):
 
 
 parser = yacc.yacc()
-p =  parser.parse("(union set(a b c) set(a b x))")
-print(p.child[0],p.child[1])
