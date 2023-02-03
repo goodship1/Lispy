@@ -772,6 +772,15 @@ def p_set_args(p):
     p[0] = Node("set-args",[p[4],p[4]],"set-args")
 
 
+def p_set_args_terms_union(p):
+    'expr : opening UNION SET opening args closing SET opening terms closing closing'
+    p[0] =  Node("set-args-union",[p[4],p[9]],"set-args-union")
+
+def p_set_terms_args_union(p):
+    'expr : opening UNION SET opening terms closing SET opening args closing closing'
+    p[0] = Node("set-terms-union",[p[4],p[9]],"set-terms-union")
+
+
 
 def p_mod_define(p):
     'expr : opening DEFINE id MOD term term closing'
