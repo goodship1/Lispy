@@ -1144,6 +1144,68 @@ class Interperter:
             if data not in set_two:
                 difference_set.append(data)
         return difference_set
+    
+
+
+    def ast_set_args_union(self,expression):
+        variable_one = expression[0]
+        variable_two = expression[1]
+        var_len =  len(variables)
+        symbols_one = []
+        symbols_two = []
+        store_one = []
+        store_two = []
+        new_set_one  = []
+        new_set_two = [] 
+
+        for data in variable_one:
+            try:
+                var  = self.table.table[data]
+                symbols_one.append(var)
+            except Exception as e:
+                raise NameError("Variable not defined")
+
+        for data in variable_two:
+            try:
+                var =  self.table.table[data]
+                symbols_two.append(var)
+            except Exception as e:
+                raise NameError("Variable not defined")
+        
+        
+        if symbols !=[]:
+            check = type(symbols[0])
+            if type(check) == type(1):
+                for data in symbols_one:
+                    if type(data) == type(1):
+                        store_one.append(data)
+                for data in symbols_two:
+                    if type(data) == type(1):
+                        store_two.append(data)
+
+            if type(check) == type("data"):
+                for data in symbols_one:
+                    if data == type("data"):
+                        store_one.append(data)
+                
+                for data in symbols_two:
+                    if data == type("data"):
+                        store_two.append(data)
+
+            if len(symbols_one) == len(symbols_two):
+                for data in symbols_one:
+                    if data not in new_set_one:
+                        new_set_one.append(data)
+                for data in symbols_two:
+                    if data not in new_set_two:
+                        new_set_two.append(data)
+
+            return new_set_one - new_set_one
+
+
+                
+                
+
 
     def ast_set_args(self,expression):
         variables = expression[0]
@@ -1525,7 +1587,8 @@ class Interperter:
                 print(set_args)
 
             if instructions.op == "union-set-args":
-                pass
+                union_set_args =  self.ast_set_args_union(instructions.child)
+                print(union_set_args)
 
             if instructions.op == "define-set-terms":
                 variable  = instructions.child[0]
