@@ -1256,7 +1256,7 @@ class Interperter:
                     if data not in new_set_two:
                         new_set_two.append(data)
 
-            return new_set_one - new_set_one
+            return new_set_one + new_set_one
 
                 
 
