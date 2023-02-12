@@ -11,6 +11,10 @@ def p_plus(p):
         p[0] = Node("exprterm",[p[3],p[4]],p[2])
 
 
+def p_import_use(p):
+	#parser rule for importing std
+    'expr : opening use id closing'
+    p[0] = Node("use-module",[p[3],p[3]],"use-module")
 	
 
 def p_divide(p):
